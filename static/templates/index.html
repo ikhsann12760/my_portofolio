@@ -520,21 +520,22 @@
             <h2 class="section-title">Hubungi Saya</h2>
             <div class="row">
                 <div class="col-md-6">
-                    <form class="contact-form">
+                    <form class="contact-form" id="contactForm">
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Nama Lengkap" required>
+                            <input type="text" class="form-control" name="name" placeholder="Nama Lengkap" required>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Email" required>
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Subjek" required>
+                            <input type="text" class="form-control" name="subject" placeholder="Subjek" required>
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" rows="5" placeholder="Pesan" required></textarea>
+                            <textarea class="form-control" name="message" rows="5" placeholder="Pesan" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Kirim Pesan</button>
                     </form>
+                    <div id="messageAlert" class="alert" style="display: none; margin-top: 1rem;"></div>
                 </div>
                 <div class="col-md-6">
                     <div class="contact-info">
@@ -644,6 +645,49 @@
             link.click();
             document.body.removeChild(link);
         }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const messageAlert = document.getElementById('messageAlert');
+            const formData = new FormData(this);
+            
+            // Disable submit button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mengirim...';
+            
+            // Hide previous alerts
+            messageAlert.style.display = 'none';
+            
+            fetch('/send_message', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageAlert.className = 'alert alert-success';
+                    messageAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.message;
+                    document.getElementById('contactForm').reset();
+                } else {
+                    messageAlert.className = 'alert alert-danger';
+                    messageAlert.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + data.message;
+                }
+                messageAlert.style.display = 'block';
+            })
+            .catch(error => {
+                messageAlert.className = 'alert alert-danger';
+                messageAlert.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>Terjadi kesalahan saat mengirim pesan.';
+                messageAlert.style.display = 'block';
+            })
+            .finally(() => {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Kirim Pesan';
+            });
+        });
     </script>
 </body>
 </html>
