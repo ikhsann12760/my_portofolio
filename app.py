@@ -10,15 +10,15 @@ app.config['SECRET_KEY'] = 'your-secret-key-here'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'gus.ikhsann12@gmail.com'  # Your email
+app.config['MAIL_USERNAME'] = ''  # Your email
 # PENTING: Ganti dengan App Password Gmail Anda (16 karakter)
 # Cara mendapatkan App Password:
 # 1. Buka https://myaccount.google.com/security
 # 2. Aktifkan "2-Step Verification" dulu
 # 3. Cari "App passwords" dan buat password baru untuk "Mail"
 # 4. Copy 16 karakter password dan paste di bawah ini
-app.config['MAIL_PASSWORD'] = 'urht qynz hjun rxwz'  # Contoh: 'abcd efgh ijkl mnop'
-app.config['MAIL_DEFAULT_SENDER'] = 'gus.ikhsann12@gmail.com'
+app.config['MAIL_PASSWORD'] = ''  # Contoh: 'abcd efgh ijkl mnop'
+app.config['MAIL_DEFAULT_SENDER'] = ''
 
 mail = Mail(app)
 
