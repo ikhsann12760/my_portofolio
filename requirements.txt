@@ -1,13 +1,8 @@
-pip freeze > requirements.txt
-```
-
-Atau manual tulis dependencies:
-```
 Flask==2.3.0
+Flask_Mail==0.9.1
 gunicorn==20.1.0
-Flask_mail==2.3.1
-```
 
-**3. Buat file `runtime.txt`** (opsional, tapi recommended)
-```
-python-3.11.4
+# Notes:
+# - `Flask` and `Flask-Mail` are required by `app.py` and Netlify function.
+# - `Pillow` is required by `create_favicon.py` (uses `PIL`).
+# - `gunicorn` is commonly used for production deployment (optional on Windows).
