@@ -1,2 +1,13 @@
-Flask
-Flask-Mail
+pip freeze > requirements.txt
+```
+
+Atau manual tulis dependencies:
+```
+Flask==2.3.0
+gunicorn==20.1.0
+Flask_mail==2.3.1
+```
+
+**3. Buat file `runtime.txt`** (opsional, tapi recommended)
+```
+python-3.11.4
