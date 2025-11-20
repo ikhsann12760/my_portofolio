@@ -1,9 +1,37 @@
 import os
+import urllib.parse
+import pkgutil
+import importlib.util
+
+# Compatibility shim: restore `pkgutil.get_loader` if removed (Python 3.14+)
+if not hasattr(pkgutil, 'get_loader'):
+    def _compat_get_loader(name):
+        if not name:
+            return None
+        if name == '__main__':
+            return None
+        try:
+            spec = importlib.util.find_spec(name)
+        except Exception:
+            return None
+        if spec is None:
+            return None
+        return getattr(spec, 'loader', None)
+    pkgutil.get_loader = _compat_get_loader
+
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
 app = Flask(__name__, template_folder="static/templates")
+
+# Jinja filter to URL-encode filenames (handles spaces/special chars in image names)
+def _urlencode(s):
+    if s is None:
+        return ''
+    return urllib.parse.quote(s)
+
+app.jinja_env.filters['urlencode'] = _urlencode
 
 # Configuration for Flask-Mail
 app.config['SECRET_KEY'] = 'your-secret-key-here'
