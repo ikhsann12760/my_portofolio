@@ -377,7 +377,7 @@
                             {% for cert in certifications %}
                             <div class="swiper-slide">
                                 <div class="cert-box">
-                                    <img src="{{ url_for('static', filename='images/' ~ (cert.image|urlencode)) }}" class="img-fluid" alt="{{ cert.title }}">
+                                    <img src="{{ url_for('static', filename='images/' + cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
                                     <p class="mt-3"><strong>{{ cert.title }}</strong><br>{{ cert.issuer }} ({{ cert.year }})</p>
                                 </div>
                             </div>
@@ -434,7 +434,7 @@
         <div class="project-container">
             {% for project in projects %}
             <div class="card">
-                <img src="{{ url_for('static', filename='images/' ~ (project.image|urlencode)) }}" class="card-img-top" alt="{{ project.title }}">
+                <img src="{{ url_for('static', filename='images/' + project.image) }}" class="card-img-top" alt="{{ project.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ project.title }}</h5>
                     <p class="project-details">{{ project.desc }}</p>

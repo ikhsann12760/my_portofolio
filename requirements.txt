@@ -1,8 +1,10 @@
 Flask==2.3.0
-Flask_Mail==0.9.1
+Flask-Mail==0.9.1
 gunicorn==20.1.0
+Pillow==10.0.1
+python-dotenv==1.0.0
 
 # Notes:
 # - `Flask` and `Flask-Mail` are required by `app.py` and Netlify function.
 # - `Pillow` is required by `create_favicon.py` (uses `PIL`).
-# - `gunicorn` is commonly used for production deployment (optional on Windows).
+# - `python-dotenv` is used to load `.env` files for local development (MAIL_USERNAME, MAIL_PASSWORD).
