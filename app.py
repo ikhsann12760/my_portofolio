@@ -43,13 +43,20 @@ app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
 app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'True').lower() in ('1', 'true', 'yes')
 
-_raw_username = os.environ.get('MAIL_USERNAME', '') or ''
-_raw_password = os.environ.get('MAIL_PASSWORD', '') or ''
+_raw_username = os.environ.get('MAIL_USERNAME') or os.environ.get('GMAIL_USERNAME') or ''
+_raw_password = os.environ.get('MAIL_PASSWORD') or os.environ.get('GMAIL_APP_PASSWORD') or ''
 _raw_sender = os.environ.get('MAIL_DEFAULT_SENDER', '') or ''
 
-_username = _raw_username.strip()
-_password = _raw_password.strip().replace(' ', '')
-_sender = (_raw_sender.strip() or _username)
+def _sanitize_env(s, remove_spaces=False):
+    s = (s or '').strip()
+    s = s.strip('"').strip("'")
+    if remove_spaces:
+        s = s.replace(' ', '')
+    return s
+
+_username = _sanitize_env(_raw_username)
+_password = _sanitize_env(_raw_password, remove_spaces=True)
+_sender = _sanitize_env(_raw_sender) or _username
 
 app.config['MAIL_USERNAME'] = _username
 app.config['MAIL_PASSWORD'] = _password
@@ -85,7 +92,8 @@ def home():
 def _debug_env():
     # Debug helper: returns whether mail env vars are present (masked). Local-only.
     host = request.remote_addr
-    if host not in ('127.0.0.1', '::1', 'localhost'):
+    allow_remote = os.environ.get('DEBUG_ENV_ENABLE', 'False').lower() in ('1', 'true', 'yes')
+    if not allow_remote and host not in ('127.0.0.1', '::1', 'localhost'):
         return jsonify({'error': 'Forbidden'}), 403
     username = app.config.get('MAIL_USERNAME') or ''
     has_username = bool(username)
