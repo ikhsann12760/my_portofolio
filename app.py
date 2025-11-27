@@ -87,6 +87,39 @@ def home():
     print("Files in templates folder:", os.listdir("static/templates"))
     return render_template("index.html", projects=projects, certifications=certifications)
 
+@app.route('/cv')
+def cv():
+    projects = [
+        {"title": "Website Cek Plagiarisme", "image": "project3-2.png", "desc": " Web untuk mendeteksi plagiarisme dengan algoritma liguistic dan di dalam web yang saya buat saya menggunakan framwork flask untuk bahasa pemrograman berisikan python, html, dan juga CSS ."},
+        {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
+    ]
+    certifications = [
+        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": "sertifikat-pkl-smk-maarif-grt-agus-ikhsan-1.png"},
+        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": "ikhsan-certifakte-kerlink-1.png"},
+        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": "44d50f5a-df37-44ee-af10-0a6a6095a501-1.png"}
+    ]
+    return render_template('cv.html', projects=projects, certifications=certifications)
+
+@app.route('/cv/download')
+def cv_download():
+    projects = [
+        {"title": "Website Cek Plagiarisme", "image": "project3-2.png", "desc": " Web untuk mendeteksi plagiarisme dengan algoritma liguistic dan di dalam web yang saya buat saya menggunakan framwork flask untuk bahasa pemrograman berisikan python, html, dan juga CSS ."},
+        {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
+    ]
+    certifications = [
+        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": "sertifikat-pkl-smk-maarif-grt-agus-ikhsan-1.png"},
+        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": "ikhsan-certifakte-kerlink-1.png"},
+        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": "44d50f5a-df37-44ee-af10-0a6a6095a501-1.png"}
+    ]
+    html = render_template('cv.html', projects=projects, certifications=certifications)
+    from io import BytesIO
+    from xhtml2pdf import pisa
+    pdf_io = BytesIO()
+    pisa.CreatePDF(html, dest=pdf_io)
+    pdf_bytes = pdf_io.getvalue()
+    from flask import Response
+    return Response(pdf_bytes, mimetype='application/pdf', headers={'Content-Disposition': 'attachment; filename="Agus_Ikhsan_Nurrohman_CV.pdf"'})
+
 
 @app.route('/_debug_env')
 def _debug_env():

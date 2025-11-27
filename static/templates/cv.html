@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Agus Ikhsan Nurrohman</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { font-family: 'Montserrat', Arial, sans-serif; }
+        .cv-container { max-width: 900px; margin: 40px auto; padding: 32px; border: 1px solid #eee; border-radius: 12px; }
+        .name { font-size: 32px; font-weight: 700; }
+        .title { color: #555; }
+        .section-title { font-weight: 700; margin-top: 24px; margin-bottom: 12px; }
+        .badge { margin: 4px 6px 0 0; }
+        .download-btn { position: fixed; right: 24px; bottom: 24px; }
+        @media print { .download-btn { display: none; } .cv-container { border: none; } }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cv-container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="name">Agus Ikhsan Nurrohman</div>
+                <div class="title">IoT Engineer | Quality Assurance | AI Enthusiast</div>
+            </div>
+            <div class="text-end">
+                <div>📧 gus.ikhsann12@gmail.com</div>
+                <div>📱 +62 838-1611-2959</div>
+                <div>📍 Indonesia, Jawa Barat</div>
+                <div>GitHub: <a href="https://github.com/ikhsann12760" target="_blank">ikhsann12760</a></div>
+            </div>
+        </div>
+
+        <div class="section-title">Ringkasan</div>
+        <p>Saya adalah seorang IoT Engineer yang passionate dalam mengembangkan solusi teknologi yang inovatif. Dengan pengalaman di bidang Quality Assurance dan antusiasme terhadap AI, saya berkomitmen untuk menciptakan produk yang berkualitas tinggi.</p>
+
+        <div class="section-title">Skills</div>
+        <div>
+            <span class="badge bg-warning text-dark">ESP8266</span>
+            <span class="badge bg-warning text-dark">RFID</span>
+            <span class="badge bg-warning text-dark">Arduino</span>
+            <span class="badge bg-warning text-dark">Sensor Networks</span>
+            <span class="badge bg-warning text-dark">Raspberry Pi</span>
+            <span class="badge bg-warning text-dark">ESP32</span>
+            <span class="badge bg-warning text-dark">Python</span>
+            <span class="badge bg-warning text-dark">Flask</span>
+            <span class="badge bg-warning text-dark">HTML/CSS</span>
+            <span class="badge bg-warning text-dark">JavaScript</span>
+            <span class="badge bg-warning text-dark">C++</span>
+            <span class="badge bg-warning text-dark">MQTT</span>
+            <span class="badge bg-warning text-dark">GitHub</span>
+            <span class="badge bg-warning text-dark">Postman</span>
+            <span class="badge bg-warning text-dark">K6</span>
+            <span class="badge bg-warning text-dark">Katalon</span>
+            <span class="badge bg-warning text-dark">JMeter</span>
+            <span class="badge bg-warning text-dark">Arduino IDE</span>
+            <span class="badge bg-warning text-dark">Visual Studio Code</span>
+            <span class="badge bg-warning text-dark">MQTT Explorer</span>
+        </div>
+
+        <div class="section-title">Pengalaman Kerja</div>
+        <div>
+            <div class="mb-3">
+                <div class="fw-bold">IoT Engineer — PT. Median Talenta Raya</div>
+                <div class="text-muted">2022 - Sekarang</div>
+                <ul>
+                    <li>Mengembangkan sistem monitoring sensor real-time</li>
+                    <li>Implementasi protokol komunikasi IoT (MQTT, HTTP)</li>
+                    <li>Optimasi performa dan keamanan sistem</li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <div class="fw-bold">Quality Assurance Engineer — Kementrian Keuangan Negara Republik Indonesia</div>
+                <div class="text-muted">2021 - 2022</div>
+                <ul>
+                    <li>Manual testing menggunakan Postman</li>
+                    <li>Performance testing menggunakan K6 dan JMeter</li>
+                    <li>Bug reporting dan tracking Dengan Postman</li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <div class="fw-bold">IoT Intern — PPTIK ITB</div>
+                <div class="text-muted">2020 - 2021</div>
+                <ul>
+                    <li>Pengembangan sensor RFID dan juga Pengembangan alat Absensi RFID</li>
+                    <li>Implementasi MQTT untuk pengiriman data dengan RabbitMQ</li>
+                    <li>Dokumentasi proyek IoT</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-title">Proyek Pilihan</div>
+        <ul>
+            {% for project in projects %}
+            <li><strong>{{ project.title }}</strong> — {{ project.desc }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="section-title">Sertifikasi</div>
+        <ul>
+            {% for cert in certifications %}
+            <li><strong>{{ cert.title }}</strong> — {{ cert.issuer }} ({{ cert.year }})</li>
+            {% endfor %}
+        </ul>
+
+        <div class="section-title">Ringkasan Pencapaian</div>
+        <ul>
+            <li>3+ Tahun Pengalaman</li>
+            <li>10+ Project Selesai</li>
+            <li>5+ Sertifikasi</li>
+        </ul>
+    </div>
+
+    <button class="btn btn-primary download-btn" onclick="window.print()">
+        <i class="fas fa-download me-2"></i> Unduh PDF
+    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>if (new URLSearchParams(window.location.search).get('print') === '1') { window.print(); }</script>
+</body>
+</html>

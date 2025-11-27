@@ -630,20 +630,15 @@
 
         // CV Functions
         function viewCV() {
-            // Ganti dengan URL CV Anda
-            const cvUrl = 'https://drive.google.com/file/d/YOUR_CV_ID/view';
+            const cvUrl = '/cv';
             window.open(cvUrl, '_blank');
         }
 
         function downloadCV() {
-            // Ganti dengan URL download CV Anda
-            const cvDownloadUrl = 'https://drive.google.com/uc?export=download&id=YOUR_CV_ID';
+            const cvUrl = '/cv/download';
             const link = document.createElement('a');
-            link.href = cvDownloadUrl;
-            link.download = 'Agus_Ikhsan_Nurrohman_CV.pdf';
-            document.body.appendChild(link);
+            link.href = cvUrl;
             link.click();
-            document.body.removeChild(link);
         }
 
         // Contact form submission
