@@ -107,18 +107,62 @@ def cv_download():
         {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
     ]
     certifications = [
-        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": "sertifikat-pkl-smk-maarif-grt-agus-ikhsan-1.png"},
-        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": "ikhsan-certifakte-kerlink-1.png"},
-        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": "44d50f5a-df37-44ee-af10-0a6a6095a501-1.png"}
+        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022},
+        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023},
+        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021}
     ]
-    html = render_template('cv.html', projects=projects, certifications=certifications)
     from io import BytesIO
-    from xhtml2pdf import pisa
-    pdf_io = BytesIO()
-    pisa.CreatePDF(html, dest=pdf_io)
-    pdf_bytes = pdf_io.getvalue()
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.lib import colors
+    buf = BytesIO()
+    doc = SimpleDocTemplate(buf, pagesize=A4)
+    styles = getSampleStyleSheet()
+    content = []
+    content.append(Paragraph("Agus Ikhsan Nurrohman", styles['Title']))
+    content.append(Paragraph("IoT Engineer | Quality Assurance | AI Enthusiast", styles['Heading3']))
+    content.append(Paragraph("Email: gus.ikhsann12@gmail.com | Telp: +62 838-1611-2959 | Indonesia, Jawa Barat", styles['Normal']))
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Ringkasan", styles['Heading2']))
+    content.append(Paragraph("Saya adalah seorang IoT Engineer yang passionate dalam mengembangkan solusi teknologi yang inovatif. Dengan pengalaman di bidang Quality Assurance dan antusiasme terhadap AI, saya berkomitmen untuk menciptakan produk yang berkualitas tinggi.", styles['Normal']))
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Skills", styles['Heading2']))
+    skills = [["IoT & Hardware", "ESP8266, RFID, Arduino, Sensor Networks, Raspberry Pi, ESP32"],
+              ["Programming", "Python, Flask, HTML/CSS, JavaScript, C++, MQTT"],
+              ["Tools & Platforms", "GitHub, Postman, K6, Katalon, JMeter, Arduino IDE, VS Code, MQTT Explorer"]]
+    t = Table(skills, colWidths=[140, 380])
+    t.setStyle(TableStyle([
+        ('BOX', (0,0), (-1,-1), 0.5, colors.grey),
+        ('INNERGRID', (0,0), (-1,-1), 0.25, colors.grey),
+        ('BACKGROUND', (0,0), (-1,0), colors.whitesmoke)
+    ]))
+    content.append(t)
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Pengalaman Kerja", styles['Heading2']))
+    content.append(Paragraph("IoT Engineer — PT. Median Talenta Raya (2022 - Sekarang)", styles['Heading4']))
+    content.append(Paragraph("Mengembangkan sistem monitoring sensor real-time; Implementasi protokol komunikasi IoT (MQTT, HTTP); Optimasi performa dan keamanan sistem.", styles['Normal']))
+    content.append(Spacer(1, 6))
+    content.append(Paragraph("Quality Assurance Engineer — Kementrian Keuangan Negara Republik Indonesia (2021 - 2022)", styles['Heading4']))
+    content.append(Paragraph("Manual testing menggunakan Postman; Performance testing menggunakan K6 dan JMeter; Bug reporting dan tracking Dengan Postman.", styles['Normal']))
+    content.append(Spacer(1, 6))
+    content.append(Paragraph("IoT Intern — PPTIK ITB (2020 - 2021)", styles['Heading4']))
+    content.append(Paragraph("Pengembangan sensor RFID dan alat Absensi RFID; Implementasi MQTT untuk pengiriman data dengan RabbitMQ; Dokumentasi proyek IoT.", styles['Normal']))
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Proyek Pilihan", styles['Heading2']))
+    for p in projects:
+        content.append(Paragraph(f"{p['title']} — {p['desc']}", styles['Normal']))
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Sertifikasi", styles['Heading2']))
+    for c in certifications:
+        content.append(Paragraph(f"{c['title']} — {c['issuer']} ({c['year']})", styles['Normal']))
+    content.append(Spacer(1, 12))
+    content.append(Paragraph("Ringkasan Pencapaian", styles['Heading2']))
+    content.append(Paragraph("3+ Tahun Pengalaman; 10+ Project Selesai; 5+ Sertifikasi.", styles['Normal']))
+    doc.build(content)
+    pdf = buf.getvalue()
     from flask import Response
-    return Response(pdf_bytes, mimetype='application/pdf', headers={'Content-Disposition': 'attachment; filename="Agus_Ikhsan_Nurrohman_CV.pdf"'})
+    return Response(pdf, mimetype='application/pdf', headers={'Content-Disposition': 'attachment; filename="Agus_Ikhsan_Nurrohman_CV.pdf"'})
 
 
 @app.route('/_debug_env')
