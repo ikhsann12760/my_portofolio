@@ -166,6 +166,7 @@
             background: white;
             color: #1e3c72;
         }
+        .typing-done { border-right: none !important; animation: none !important; }
         
         .contact-form .form-control {
             border-radius: 12px;
@@ -586,25 +587,24 @@
             });
         });
 
-        // Typing animation function
+        // Typing animation function (substring-based, cepat dan stabil)
         function typeWriter(element, text, speed, delay = 0) {
             setTimeout(() => {
                 let i = 0;
-                element.style.width = '0';
-                element.style.overflow = 'hidden';
+                const full = text;
+                element.textContent = '';
                 element.style.whiteSpace = 'nowrap';
                 element.style.borderRight = '2px solid #ffb300';
                 element.style.opacity = '1';
-                
                 const timer = setInterval(() => {
-                    if (i < text.length) {
-                        element.style.width = ((i + 1) * 100 / text.length) + '%';
+                    if (i < full.length) {
+                        element.textContent = full.substring(0, i + 1);
                         i++;
                     } else {
                         clearInterval(timer);
-                        setTimeout(() => {
-                            element.style.borderRight = 'none';
-                        }, 1000);
+                        element.classList.add('typing-done');
+                        element.style.borderRight = 'none';
+                        element.style.animation = 'none';
                     }
                 }, speed);
             }, delay);
@@ -636,7 +636,7 @@
             
             // Start subtitle typing after greeting fades in
             if (subtitle) {
-                typeWriter(subtitle, subtitle.textContent, 80, 1200);
+                typeWriter(subtitle, subtitle.textContent, 40, 400);
             }
         });
 
