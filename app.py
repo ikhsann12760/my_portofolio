@@ -104,7 +104,7 @@ def home():
         {"title": "Website Cek Plagiarisme", "image": "Pengertian-Phyton.jpg", "desc": " Web untuk mendeteksi plagiarisme dengan algoritma liguistic dan "
         "di dalam web yang saya buat saya menggunakan framwork flask untuk bahasa pemrograman berisikan python, html, dan juga CSS ."},
         {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"},
-        {"title" : "MODERENISASI SPAN2024, SPAN 2025", "image" : "Project Postman.png", "desc": "Project ini bertujuan untuk menguji layanan berbasis Oracle Java menggunakan Postman sebagai tools utama. Pengujian dilakukan untuk memastikan setiap endpoint berjalan sesuai fungsi, format data valid, serta sistem autentikasi dan respons layanan sesuai standar"}
+        {"title" : "MODERENISASI SPAN2024, SPAN 2025", "image" : "Project_Postman.png", "desc": "Project ini bertujuan untuk menguji layanan berbasis Oracle Java menggunakan Postman sebagai tools utama. Pengujian dilakukan untuk memastikan setiap endpoint berjalan sesuai fungsi, format data valid, serta sistem autentikasi dan respons layanan sesuai standar"}
     ]
 
     certifications = get_certifications()
