@@ -166,6 +166,8 @@
             background: white;
             color: #1e3c72;
         }
+        .exp-toolbar { display: flex; gap: 8px; }
+        .toolbar-btn { background-color: #ffb300; color: #222; border: none; padding: 8px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
         .typing-done { border-right: none !important; animation: none !important; }
         
         .contact-form .form-control {
@@ -459,48 +461,101 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <div class="timeline">
+                        <!-- Urutan lama ke terbaru -->
                         <div class="timeline-item">
                             <div class="timeline-marker"></div>
                             <div class="timeline-content">
-                                <h4>IoT Engineer</h4>
-                                <h5>PT. Median Talenta Raya</h5>
-                                <p class="text-muted">2022 - Sekarang</p>
-                                <p>Mengembangkan solusi IoT untuk monitoring dan kontrol sistem. Bertanggung jawab atas desain, implementasi, dan maintenance sistem IoT yang terintegrasi.</p>
-                                <ul>
-                                    <li>Mengembangkan sistem monitoring sensor real-time</li>
-                                    <li>Implementasi protokol komunikasi IoT (MQTT, HTTP)</li>
-                                    <li>Optimasi performa dan keamanan sistem</li>
-                                </ul>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4>IoT Intern</h4>
+                                        <h5>PPTIK ITB</h5>
+                                        <p class="text-muted">2020 - 2021</p>
+                                    </div>
+                                    <div class="exp-toolbar">
+                                        <button class="toolbar-btn" title="Buka/Tutup" data-bs-toggle="collapse" data-bs-target="#exp3" aria-controls="exp3" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                                <div id="exp3" class="collapse mt-2">
+                                    <p>Seminar Online dari Pusat Penelitian Teknologi Informasi dan Komunikasi ITB. Belajar dan mengembangkan proyek IoT dasar.</p>
+                                    <ul>
+                                        <li>Pengembangan sensor RFID dan juga Pengembangan alat Absensi RFID</li>
+                                        <li>Implementasi MQTT untuk pengiriman data dengan RabbitMQ</li>
+                                        <li>Dokumentasi proyek IoT</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="timeline-item">
                             <div class="timeline-marker"></div>
                             <div class="timeline-content">
-                                <h4>Quality Assurance Engineer</h4>
-                                <h5>Kementrian Keuangan Negara Republik Indonesia</h5>
-                                <p class="text-muted">2021 - 2022</p>
-                                <p>Melakukan testing dan quality assurance untuk aplikasi API dan juga Service yang di buat, kualitas produk sesuai standar perusahaan.</p>
-                                <ul>
-                                    <li>Manual testing menggunakan Postman</li>
-                                    <li>Performance testing menggunakan K6 dan JMeter</li>
-                                    <li>Bug reporting dan tracking Dengan Postman</li>
-                                </ul>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4>IoT Engineer</h4>
+                                        <h5>PT. Median Talenta Raya</h5>
+                                        <p class="text-muted">2022 - Sekarang</p>
+                                    </div>
+                                    <div class="exp-toolbar">
+                                        <button class="toolbar-btn" title="Buka/Tutup" data-bs-toggle="collapse" data-bs-target="#exp1" aria-controls="exp1" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                                <div id="exp1" class="collapse mt-2">
+                                    <p>Mengembangkan solusi IoT untuk monitoring dan kontrol sistem. Bertanggung jawab atas desain, implementasi, dan maintenance sistem IoT yang terintegrasi.</p>
+                                    <ul>
+                                        <li>Mengembangkan sistem monitoring sensor real-time</li>
+                                        <li>Implementasi protokol komunikasi IoT (MQTT, HTTP)</li>
+                                        <li>Optimasi performa dan keamanan sistem</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="timeline-item">
                             <div class="timeline-marker"></div>
                             <div class="timeline-content">
-                                <h4>IoT Intern</h4>
-                                <h5>PPTIK ITB</h5>
-                                <p class="text-muted">2020 - 2021</p>
-                                <p>Seminar Online dari Pusat Penelitian Teknologi Informasi dan Komunikasi ITB. Belajar dan mengembangkan proyek IoT dasar.</p>
-                                <ul>
-                                    <li>Pengembangan sensor RFID dan juga Pengembangan alat Absensi RFID</li>
-                                    <li>Implementasi MQTT untuk pengiriman data dengan RabbitMQ</li>
-                                    <li>Dokumentasi proyek IoT</li>
-                                </ul>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4>Support Data Management</h4>
+                                        <h5>Kejaksaan Agung Republik Indonesia</h5>
+                                        <p class="text-muted">2024</p>
+                                    </div>
+                                    <div class="exp-toolbar">
+                                        <button class="toolbar-btn" title="Buka/Tutup" data-bs-toggle="collapse" data-bs-target="#exp4" aria-controls="exp4" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                                <div id="exp4" class="collapse mt-2">
+                                    <p>Bertujuan untuk memanage data pada database setiap kejaksaan yang ada di Indonesia ke Kejaksaan Agung Jakarta.</p>
+                                    <ul>
+                                        <li>Menginstall program software di dalam server</li>
+                                        <li>Konfigurasi software pada server</li>
+                                        <li>Menambahkan agent service pada server</li>
+                                        <li>Memindahkan data dari server kejaksaan setiap daerah ke pusat</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4>Quality Assurance Engineer</h4>
+                                        <h5>Kementrian Keuangan Negara Republik Indonesia</h5>
+                                        <p class="text-muted">2024 - 2025</p>
+                                    </div>
+                                    <div class="exp-toolbar">
+                                        <button class="toolbar-btn" title="Buka/Tutup" data-bs-toggle="collapse" data-bs-target="#exp2" aria-controls="exp2" aria-expanded="false"><i class="fas fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                                <div id="exp2" class="collapse mt-2">
+                                    <p>Melakukan testing dan quality assurance untuk aplikasi API dan juga Service yang di buat, kualitas produk sesuai standar perusahaan.</p>
+                                    <ul>
+                                        <li>Manual testing menggunakan Postman</li>
+                                        <li>Performance testing menggunakan K6 dan JMeter</li>
+                                        <li>Bug reporting dan tracking Dengan Postman</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -628,6 +683,27 @@
         window.addEventListener('load', () => {
             const subtitle = document.querySelector('.typing-text');
             const greeting = document.querySelector('.hero-title');
+            document.querySelectorAll('.exp-toolbar .toolbar-btn[data-bs-target]').forEach(btn => {
+                const targetSel = btn.getAttribute('data-bs-target');
+                const target = document.querySelector(targetSel);
+                if (!target) return;
+                target.addEventListener('show.bs.collapse', () => {
+                    const icon = btn.querySelector('i');
+                    if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
+                });
+                target.addEventListener('hide.bs.collapse', () => {
+                    const icon = btn.querySelector('i');
+                    if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
+                });
+            });
+            document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(btn => {
+                const targetSel = btn.getAttribute('data-bs-target');
+                const target = document.querySelector(targetSel);
+                if (!target) return;
+                const icon = btn.querySelector('i');
+                target.addEventListener('show.bs.collapse', () => { if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); } });
+                target.addEventListener('hide.bs.collapse', () => { if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); } });
+            });
             
             // Fade in greeting first
             if (greeting) {
