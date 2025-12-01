@@ -24,6 +24,7 @@ if not hasattr(pkgutil, 'get_loader'):
     pkgutil.get_loader = _compat_get_loader
 
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
+from flask import send_from_directory
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
@@ -70,6 +71,10 @@ if app.config['MAIL_DEFAULT_SENDER'] != app.config['MAIL_USERNAME']:
     app.logger.warning('MAIL_DEFAULT_SENDER differs from MAIL_USERNAME. Using a different From may be rejected by Gmail.')
 
 mail = Mail(app)
+
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory(os.path.join('static', 'images'), filename)
 
 def get_certifications():
     items = []

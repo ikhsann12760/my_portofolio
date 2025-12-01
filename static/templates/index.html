@@ -380,12 +380,12 @@
                                 <div class="cert-box">
                                     {% set lower = cert.image.lower() if cert.image else '' %}
                                     {% if lower.endswith('.pdf') %}
-                                        <div class="cert-pdf" data-pdf-url="{{ url_for('static', filename='images/' + cert.image) }}">
+                                        <div class="cert-pdf" data-pdf-url="{{ url_for('serve_image', filename=cert.image) }}">
                                             <canvas class="pdf-canvas" width="600"></canvas>
-                                            <p class="mt-2"><a class="btn btn-outline-primary" href="{{ url_for('static', filename='images/' + cert.image) }}" target="_blank">Buka Sertifikat (PDF)</a></p>
+                                            <p class="mt-2"><a class="btn btn-outline-primary" href="{{ url_for('serve_image', filename=cert.image) }}" target="_blank">Buka Sertifikat (PDF)</a></p>
                                         </div>
                                     {% else %}
-                                        <img src="{{ url_for('static', filename='images/' + cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
+                                        <img src="{{ url_for('serve_image', filename=cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
                                     {% endif %}
                                     <p class="mt-3"><strong>{{ cert.title }}</strong><br>{{ cert.issuer }} ({{ cert.year }})</p>
                                 </div>
@@ -443,7 +443,7 @@
         <div class="project-container">
             {% for project in projects %}
             <div class="card">
-                <img src="{{ url_for('static', filename='images/' + project.image) }}" class="card-img-top" alt="{{ project.title }}">
+                <img src="{{ url_for('serve_image', filename=project.image) }}" class="card-img-top" alt="{{ project.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ project.title }}</h5>
                     <p class="project-details">{{ project.desc }}</p>
