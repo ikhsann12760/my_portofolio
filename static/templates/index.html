@@ -377,7 +377,15 @@
                             {% for cert in certifications %}
                             <div class="swiper-slide">
                                 <div class="cert-box">
-                                    <img src="{{ url_for('static', filename='images/' + cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
+                                    {% set lower = cert.image.lower() if cert.image else '' %}
+                                    {% if lower.endswith('.pdf') %}
+                                        <div class="cert-pdf" data-pdf-url="{{ url_for('static', filename='images/' + cert.image) }}">
+                                            <canvas class="pdf-canvas" width="600"></canvas>
+                                            <p class="mt-2"><a class="btn btn-outline-primary" href="{{ url_for('static', filename='images/' + cert.image) }}" target="_blank">Buka Sertifikat (PDF)</a></p>
+                                        </div>
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='images/' + cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
+                                    {% endif %}
                                     <p class="mt-3"><strong>{{ cert.title }}</strong><br>{{ cert.issuer }} ({{ cert.year }})</p>
                                 </div>
                             </div>
@@ -683,6 +691,49 @@
                 submitBtn.innerHTML = 'Kirim Pesan';
             });
         });
+    </script>
+    <!-- PDF.js (render PDF to canvas, hides browser PDF toolbar) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.477/pdf.min.js"></script>
+    <script>
+        // Render first page of any PDF certificate into its canvas
+        (function(){
+            if (typeof pdfjsLib === 'undefined') return;
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.477/pdf.worker.min.js';
+
+            document.querySelectorAll('.cert-pdf').forEach(function(container){
+                var url = container.getAttribute('data-pdf-url');
+                if (!url) return;
+
+                var canvas = container.querySelector('.pdf-canvas');
+                var ctx = canvas.getContext('2d');
+
+                // Load PDF and render first page
+                pdfjsLib.getDocument(url).promise.then(function(pdf){
+                    return pdf.getPage(1);
+                }).then(function(page){
+                    var viewport = page.getViewport({scale: 1});
+                    // Fit width to container
+                    var desiredWidth = container.clientWidth || 600;
+                    var scale = desiredWidth / viewport.width;
+                    var scaledViewport = page.getViewport({scale: scale});
+
+                    canvas.width = Math.floor(scaledViewport.width);
+                    canvas.height = Math.floor(scaledViewport.height);
+                    canvas.style.width = canvas.width + 'px';
+                    canvas.style.height = canvas.height + 'px';
+
+                    var renderContext = {
+                        canvasContext: ctx,
+                        viewport: scaledViewport
+                    };
+                    page.render(renderContext);
+                }).catch(function(err){
+                    console.error('PDF render error', err);
+                    // on error, hide canvas and leave fallback link visible
+                    canvas.style.display = 'none';
+                });
+            });
+        })();
     </script>
 </body>
 </html>

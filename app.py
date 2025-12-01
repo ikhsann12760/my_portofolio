@@ -71,6 +71,28 @@ if app.config['MAIL_DEFAULT_SENDER'] != app.config['MAIL_USERNAME']:
 
 mail = Mail(app)
 
+def get_certifications():
+    items = []
+    files = []
+    try:
+        files = os.listdir(os.path.join('static', 'images'))
+    except Exception:
+        files = []
+    for f in files:
+        if not f.lower().endswith(('.png', '.jpg', '.jpeg')):
+            continue
+        if f.startswith('sertifikat-pkl-smk-maarif'):
+            items.append({"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": f})
+        elif f.startswith('ikhsan-certifakte-kerlink'):
+            items.append({"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": f})
+        elif f.startswith('44d50f5a'):
+            items.append({"title": "Sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": f})
+        elif f.startswith('8934557'):
+            items.append({"title": "Sertifikat Pelatihan IoT", "issuer": "SkillUP", "year": 2025, "image": f})
+        elif f.startswith('8955497'):
+            items.append({"title": "Sertifikat IoT AWS", "issuer": "AWS", "year": 2025, "image": f})
+    return items
+
 @app.route("/")
 def home():
     projects = [
@@ -79,11 +101,34 @@ def home():
         {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
     ]
 
-    certifications = [
-        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": "sertifikat-pkl-smk-maarif-grt-agus-ikhsan-1.png"},
-        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": "ikhsan-certifakte-kerlink-1.png"},
-        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": "44d50f5a-df37-44ee-af10-0a6a6095a501-1.png"}
+    certifications = get_certifications()
+
+    # Auto-detect certificate image files in static/images
+    try:
+        imgs = os.listdir(os.path.join('static', 'images'))
+    except Exception:
+        imgs = []
+
+    # heuristics: include files that look like certificates (contain 'sert' or 'cert') and are images
+    lower_existing = {c['image'].lower() for c in certifications if c.get('image')}
+    for f in imgs:
+        fl = f.lower()
+        if fl in lower_existing:
+            continue
+        if any(fl.endswith(ext) for ext in ('.png', '.jpg', '.jpeg')) and ('sert' in fl or 'cert' in fl):
+            # create a friendly title from filename
+            name = os.path.splitext(f)[0]
+            title = name.replace('-', ' ').replace('_', ' ').title()
+            certifications.append({"title": title, "issuer": "", "year": "", "image": f})
+    # Also include specific uploaded certificate images provided by user
+    manual_add = [
+        "8934557_91720741757314421586_page-0001.jpg",
+        "8955497_91720741757649379217_page-0001.jpg"
     ]
+    for f in manual_add:
+        if f.lower() not in lower_existing and os.path.exists(os.path.join('static', 'images', f)):
+            title = f.split('_')[0]
+            certifications.append({"title": f"Sertifikat {title}", "issuer": "", "year": "", "image": f})
     print("Files in templates folder:", os.listdir("static/templates"))
     return render_template("index.html", projects=projects, certifications=certifications)
 
@@ -93,11 +138,7 @@ def cv():
         {"title": "Website Cek Plagiarisme", "image": "project3-2.png", "desc": " Web untuk mendeteksi plagiarisme dengan algoritma liguistic dan di dalam web yang saya buat saya menggunakan framwork flask untuk bahasa pemrograman berisikan python, html, dan juga CSS ."},
         {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
     ]
-    certifications = [
-        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022, "image": "sertifikat-pkl-smk-maarif-grt-agus-ikhsan-1.png"},
-        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023, "image": "ikhsan-certifakte-kerlink-1.png"},
-        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021, "image": "44d50f5a-df37-44ee-af10-0a6a6095a501-1.png"}
-    ]
+    certifications = get_certifications()
     return render_template('cv.html', projects=projects, certifications=certifications)
 
 @app.route('/cv/download')
@@ -106,11 +147,7 @@ def cv_download():
         {"title": "Website Cek Plagiarisme", "image": "project3-2.png", "desc": " Web untuk mendeteksi plagiarisme dengan algoritma liguistic dan di dalam web yang saya buat saya menggunakan framwork flask untuk bahasa pemrograman berisikan python, html, dan juga CSS ."},
         {"title": "Absensi RFID berbasi ESP8266", "image": "project2.jpg", "desc": "Alat untuk absensi menggunakan teknologi RFID yang dapat di gunakan di dalam instansi pekerjaan baik itu pun instansi sekolah"}
     ]
-    certifications = [
-        {"title": "IoT Engineer", "issuer": "Median Talenta Raya", "year": 2022},
-        {"title": "Kerlink Sertification", "issuer": "Kerlink", "year": 2023},
-        {"title": "sertifikasi IoT PPTIK ITB", "issuer": "PPTIK ITB", "year": 2021}
-    ]
+    certifications = [{"title": c.get("title"), "issuer": c.get("issuer"), "year": c.get("year")} for c in get_certifications()]
     from io import BytesIO
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import getSampleStyleSheet
