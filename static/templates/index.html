@@ -46,15 +46,16 @@
         }
         
         .hero-title {
-            font-size: 3rem;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
             font-weight: 700;
             margin-bottom: 1rem;
         }
         
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             opacity: 0.9;
             margin-bottom: 2rem;
+            word-break: break-word;
         }
         
         .highlight {
@@ -81,7 +82,8 @@
         
         .card-img-top {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 16 / 9;
+            height: auto;
             object-fit: cover;
             border-radius: 12px 12px 0 0;
         }
@@ -105,24 +107,20 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.15);
         }
         
-        .card-body {
-            text-align: center;
-            padding: 1.5rem;
-        }
+.card-body {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.card-title, .project-details, .lead { word-break: break-word; }
         
         .project-details {
-            opacity: 0;
             position: relative;
             background: rgba(0, 0, 0, 0.8);
             color: white;
             padding: 1rem;
-            transition: opacity 0.3s ease;
             margin-top: 1rem;
             border-radius: 8px;
-        }
-        
-        .card:hover .project-details {
-            opacity: 1;
         }
         
         .badge {
@@ -173,7 +171,7 @@
             color: #1e3c72;
         }
         .exp-toolbar { display: flex; gap: 8px; }
-        .toolbar-btn { background-color: #ffb300; color: #222; border: none; padding: 8px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .toolbar-btn { background-color: #ffb300; color: #222; border: none; padding: 8px; border-radius: 50%; width: clamp(36px, 5vw, 44px); height: clamp(36px, 5vw, 44px); display: flex; align-items: center; justify-content: center; }
         .typing-done { border-right: none !important; animation: none !important; }
         
         .contact-form .form-control {
@@ -256,7 +254,7 @@
         
         .cert-container {
             position: relative;
-            padding: 0 60px;
+            padding: 0 clamp(16px, 6vw, 60px);
         }
         
         .social-icons {
@@ -304,9 +302,26 @@
                 grid-template-columns: 1fr;
             }
             
-            .swiper-button-prev, .swiper-button-next {
+            .swiper-button-prev, .swiper-button-next, .experience-button-prev, .experience-button-next {
                 display: none;
             }
+
+            .card-img-top { height: 180px; }
+            .card-body { padding: 1rem; }
+            .cert-container { padding: 0 16px; }
+            .cta-buttons { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; }
+            .cta-buttons a { margin-bottom: .25rem; }
+            .btn-primary, .btn-outline-light { width: 100%; max-width: 320px; padding: 0.6rem 1.2rem; font-size: 0.95rem; }
+            #submitBtn { width: 100%; }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title { font-size: 1.6rem; }
+            .hero-subtitle { font-size: 1rem; }
+            section { padding: 60px 0; }
+            .card-img-top { height: 160px; }
+            .cert-box { padding: 1rem; }
+            .toolbar-btn { width: 44px; height: 44px; }
         }
     </style>
 </head>
@@ -368,11 +383,11 @@
                     <ul class="list-unstyled">
                         <li><i class="fas fa-check-circle text-success me-2"></i>2+ Tahun Pengalaman</li>
                         <li><i class="fas fa-check-circle text-success me-2"></i>5+ Project Selesai</li>
-                        <li><i class="fas fa-check-circle text-success me-2"></i>5+ Sertifikasi</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i>6+ Sertifikasi</li>
                     </ul>
                 </div>
                 <div class="col-md-6 text-center">
-                    <img src="{{ url_for('static', filename='images/profil.jpg') }}" class="about-image img-fluid" alt="About Me">
+            <img src="{{ url_for('static', filename='images/profil.jpg') }}" class="about-image img-fluid" alt="About Me" loading="lazy">
                 </div>
             </div>
             
@@ -394,7 +409,7 @@
                                             <p class="mt-2"><a class="btn btn-outline-primary" href="{{ url_for('serve_image', filename=cert.image) }}" target="_blank">Buka Sertifikat (PDF)</a></p>
                                         </div>
                                     {% else %}
-                                        <img src="{{ url_for('serve_image', filename=cert.image) }}" class="img-fluid" alt="{{ cert.title }}">
+                                        <img src="{{ url_for('serve_image', filename=cert.image) }}" class="img-fluid" alt="{{ cert.title }}" loading="lazy">
                                     {% endif %}
                                     <p class="mt-3"><strong>{{ cert.title }}</strong><br>{{ cert.issuer }} ({{ cert.year }})</p>
                                 </div>
@@ -452,7 +467,7 @@
         <div class="project-container">
             {% for project in projects %}
             <div class="card">
-                <img src="{{ url_for('serve_image', filename=project.image) }}" class="card-img-top" alt="{{ project.title }}">
+                <img src="{{ url_for('serve_image', filename=project.image) }}" class="card-img-top" alt="{{ project.title }}" loading="lazy">
                 <div class="card-body">
                     <h5 class="card-title">{{ project.title }}</h5>
                     <p class="project-details">{{ project.desc }}</p>
@@ -666,6 +681,7 @@
                         element.classList.add('typing-done');
                         element.style.borderRight = 'none';
                         element.style.animation = 'none';
+                        element.style.whiteSpace = 'normal';
                     }
                 }, speed);
             }, delay);

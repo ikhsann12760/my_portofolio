@@ -96,6 +96,8 @@ def get_certifications():
             items.append({"title": "Sertifikat Pelatihan IoT", "issuer": "SkillUP", "year": 2025, "image": f})
         elif f.startswith('8955497'):
             items.append({"title": "Sertifikat IoT AWS", "issuer": "AWS", "year": 2025, "image": f})
+        elif f.startswith('sertifikat-Uji-Kompetensi'):
+            items.append({"title": "Teknik Komputer Jaringan", "issuer": "B One & SMK Ma'arif Garut", "year": "2022/2023", "image": f})
     return items
 
 @app.route("/")
