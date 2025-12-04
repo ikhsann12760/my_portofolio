@@ -122,6 +122,11 @@
             margin-top: 1rem;
             border-radius: 8px;
         }
+
+        @media (hover: hover) {
+            .project-details { opacity: 0; transition: opacity 0.3s ease; }
+            .card:hover .project-details { opacity: 1; }
+        }
         
         .badge {
             font-size: 0.9rem;
