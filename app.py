@@ -241,6 +241,13 @@ def send_message():
         email = request.form.get('email')
         subject = request.form.get('subject')
         message_content = request.form.get('message')
+        maintenance = os.environ.get('MAINTENANCE_MODE', 'False').lower() in ('1', 'true', 'yes')
+
+        if maintenance:
+            return jsonify({'success': False, 'message': 'sedang melakukan maintenance'}), 503
+
+        if not email or not email.lower().endswith('@gmail.com'):
+            return jsonify({'success': False, 'message': 'email anda kurang lengkap'}), 400
         
         # Create email message (use default sender, set reply-to to pengirim)
         msg = Message(
@@ -262,9 +269,8 @@ def send_message():
         
         # Check mail config before sending
         if not app.config['MAIL_USERNAME'] or not app.config['MAIL_PASSWORD']:
-            msg = 'Mail server not configured (MAIL_USERNAME or MAIL_PASSWORD missing).'
-            app.logger.error(msg)
-            return jsonify({'success': False, 'message': msg}), 500
+            app.logger.error('Mail server not configured (MAIL_USERNAME or MAIL_PASSWORD missing).')
+            return jsonify({'success': False, 'message': 'sedang terjadi kesalahan pada server'}), 500
 
         # Send email
         mail.send(msg)

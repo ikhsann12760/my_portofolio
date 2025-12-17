@@ -784,6 +784,19 @@
             const submitBtn = document.getElementById('submitBtn');
             const messageAlert = document.getElementById('messageAlert');
             const formData = new FormData(this);
+            const emailField = document.querySelector('input[name="email"]');
+            const emailVal = (emailField && emailField.value ? emailField.value : '').trim().toLowerCase();
+            if (!emailVal.endsWith('@gmail.com')) {
+                if (emailField) { emailField.classList.add('is-invalid'); }
+                messageAlert.className = 'alert alert-danger';
+                messageAlert.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>email anda kurang lengkap';
+                messageAlert.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Kirim Pesan';
+                return;
+            } else {
+                if (emailField) { emailField.classList.remove('is-invalid'); }
+            }
             
             // Disable submit button and show loading
             submitBtn.disabled = true;
@@ -796,15 +809,32 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            .then(async (response) => {
+                let payload = {};
+                try { payload = await response.json(); } catch(_) {}
+                return { data: payload, status: response.status };
+            })
+            .then(({data, status}) => {
+                var msg = (data && data.message) ? String(data.message) : '';
+                var low = msg.toLowerCase();
+                if (status === 503) { msg = 'sedang melakukan maintenance'; }
+                else if (status === 400) { msg = 'email anda kurang lengkap'; }
+                else if (!data.success && status >= 500) { msg = 'sedang terjadi kesalahan pada server'; }
+                if (low.includes('mail server not configured')) { msg = 'sedang terjadi kesalahan pada server'; }
+                if (low.includes('authentication required') || low.includes('badcredentials') || low.includes('username and password not accepted') || low.includes('535')) { msg = 'sedang terjadi kesalahan pada server'; }
+                if (low.includes('maintenance')) { msg = 'sedang melakukan maintenance'; }
+                if (low.includes('gmail') === false && low.includes('@gmail.com') === false && msg && msg.indexOf('@gmail.com') === -1 && data && data.success === false) {
+                    // fallback: jika server tidak memvalidasi, tampilkan pesan email kurang lengkap untuk error yang berkaitan dengan email
+                    if ((low.includes('email') && low.includes('invalid')) || low.includes('reply-to')) { msg = 'email anda kurang lengkap'; }
+                }
+                if (data && data.success) {
                     messageAlert.className = 'alert alert-success';
-                    messageAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.message;
+                    messageAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + msg;
                     document.getElementById('contactForm').reset();
                 } else {
                     messageAlert.className = 'alert alert-danger';
-                    messageAlert.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + data.message;
+                    messageAlert.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + msg;
+                    if (status === 400 && emailField) { emailField.classList.add('is-invalid'); }
                 }
                 messageAlert.style.display = 'block';
             })
