@@ -102,7 +102,7 @@ def get_certifications():
 
 @app.route('/googlef59074dbbf6451ff.html')
 def google_verification():
-    return send_from_directory('.', 'googlef59074dbbf6451ff.html')
+    return send_from_directory(app.root_path, 'googlef59074dbbf6451ff.html')
 
 @app.route("/")
 def home():
