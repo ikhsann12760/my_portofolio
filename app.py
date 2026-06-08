@@ -100,6 +100,10 @@ def get_certifications():
             items.append({"title": "Teknik Komputer Jaringan", "issuer": "B One & SMK Ma'arif Garut", "year": "2022/2023", "image": f})
     return items
 
+@app.route('/googlef59074dbbf6451ff.html')
+def google_verification():
+    return send_from_directory('.', 'googlef59074dbbf6451ff.html')
+
 @app.route("/")
 def home():
     projects = [
